@@ -2,13 +2,60 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 1,
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[nltk_data] Downloading package stopwords to\n",
+      "[nltk_data]     /Users/livialilli/nltk_data...\n",
+      "[nltk_data]   Package stopwords is already up-to-date!\n"
+     ]
+    }
+   ],
    "source": [
     "import pandas\n",
     "import csv\n",
-    "from pandas.core.frame import DataFrame"
+    "from pandas.core.frame import DataFrame\n",
+    "from nltk.tokenize import sent_tokenize, word_tokenize\n",
+    "from nltk.stem import PorterStemmer\n",
+    "from nltk.corpus import stopwords\n",
+    "import nltk\n",
+    "nltk.download('stopwords')\n",
+    "import string\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[nltk_data] Downloading package punkt to\n",
+      "[nltk_data]     /Users/livialilli/nltk_data...\n",
+      "[nltk_data]   Package punkt is already up-to-date!\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import nltk\n",
+    "nltk.download('punkt')"
    ]
   },
   {
@@ -20,17 +67,17 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [],
    "source": [
-    "rentals_file = pandas.read_csv((\"Airbnb_Texas_Rentals.csv\"), sep =\",\", delimiter= None, header = \"infer\", names = None, index_col = None, usecols = None,\n",
+    "rentals_file = pandas.read_csv((\"files/Airbnb_Texas_Rentals.csv\"), sep =\",\", delimiter= None, header = \"infer\", names = None, index_col = None,\n",
     "                       encoding=\"ISO-8859-1\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [
     {
@@ -1184,7 +1231,7 @@
        "[18259 rows x 10 columns]"
       ]
      },
-     "execution_count": 9,
+     "execution_count": 5,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1202,7 +1249,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1219,7 +1266,31 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 39,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#function to read the tsv file\n",
+    "def read(file_name):\n",
+    "    read_file = pandas.read_csv(file_name, sep =\"\\t\", delimiter= None, header = \"infer\", names = None, index_col = None, usecols = None,\n",
+    "                       encoding=\"ISO-8859-1\")\n",
+    "    return read_file\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#for now I just consider one tsv file\n",
+    "d = read(\"files/doc_0.tsv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
    "metadata": {},
    "outputs": [
     {
@@ -1289,28 +1360,63 @@
        "0  https://www.airbnb.com/rooms/18520444?location...  "
       ]
      },
-     "execution_count": 13,
+     "execution_count": 41,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "#reading one of these files\n",
-    "pandas.read_csv((\"doc_0.tsv\"), sep =\"\\t\", delimiter= None, header = \"infer\", names = None, index_col = None, usecols = None,\n",
-    "                       encoding=\"ISO-8859-1\")"
+    "d"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 42,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0    Welcome to stay in private room with queen bed...\n",
+       "Name: description, dtype: object"
+      ]
+     },
+     "execution_count": 42,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "d[\"description\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'Welcome to stay in private room with queen bed and detached private bathroom on the second floor. Another private bedroom with sofa bed is available for additional guests. 10$ for an additional guest.\\\\n10min from IAH airport\\\\nAirport pick-up/drop off is available for $10/trip.'"
+      ]
+     },
+     "execution_count": 43,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "d[\"description\"][0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
    "metadata": {},
    "outputs": [],
    "source": [
-    "#function to read the tsv file\n",
-    "def read(file_name):\n",
-    "    pandas.read_csv(file_name, sep =\"\\t\", delimiter= None, header = \"infer\", names = None, index_col = None, usecols = None,\n",
-    "                       encoding=\"ISO-8859-1\")\n",
-    "    \n"
+    "col_names = [\"average_rate_per_night\",\"bedrooms_count\",\"city\", \"date_of_listing\",\"description\",\"latitude\",\"longitude\",\"title\",\"url\"]"
    ]
   },
   {
@@ -1322,34 +1428,107 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 45,
    "metadata": {},
-   "outputs": [
-    {
-     "ename": "NameError",
-     "evalue": "name 'read' is not defined",
-     "output_type": "error",
-     "traceback": [
-      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
-      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
-      "\u001b[0;32m<ipython-input-11-0a9ed9461c9d>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mrange\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mrentals_file\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m     \u001b[0mname\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m\"doc_\"\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m+\u001b[0m\u001b[0;34m\".tsv\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m     \u001b[0mread\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      4\u001b[0m     \u001b[0;31m#punto3\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;31mNameError\u001b[0m: name 'read' is not defined"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
-    "for i in range(len(rentals_file)):\n",
-    "    name = \"doc_\" + str(i) +\".tsv\"\n",
-    "    read(name)\n",
-    "    #punto3"
+    "def stopWords(column_file):\n",
+    "    stopWords = set(stopwords.words('english'))\n",
+    "    words = word_tokenize(str(column_file))\n",
+    "    wordsFiltered = []\n",
+    "\n",
+    "    for w in words:\n",
+    "        if w not in stopWords:\n",
+    "            wordsFiltered.append(w)\n",
+    "    return wordsFiltered\n",
+    "    "
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 46,
    "metadata": {},
    "outputs": [],
-   "source": []
+   "source": [
+    "def punctuation(list):\n",
+    "    exclude = set(string.punctuation)\n",
+    "    for el in list:\n",
+    "        if el in exclude:\n",
+    "            list.remove(el)\n",
+    "    return list"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def stemming(list):\n",
+    "    ps = PorterStemmer()\n",
+    "    output = []\n",
+    "    for word in list:\n",
+    "        stem_word = ps.stem(word)\n",
+    "        output.append(stem_word)\n",
+    "    return output\n",
+    "#it returns a list (of the current column) with all the stem-words\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['2', 'privat', 'rooms/bathroom', '10min', 'iah', 'airport']\n"
+     ]
+    }
+   ],
+   "source": [
+    "#example of application\n",
+    "s = stopWords(d[\"title\"][0])\n",
+    "p = punctuation(s)\n",
+    "print(stemming(p))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#On ALL the COLUMNS\n",
+    "#applyng stopWords,punctuation and stemming functions for every column of the dataframe\n",
+    "def all_col():\n",
+    "    dic = {}\n",
+    "    for name in col_names:\n",
+    "        l = stopWords(d[name][0])\n",
+    "        l = punctuation(l)\n",
+    "        result = stemming(l)\n",
+    "        dic[name] = result\n",
+    "        #print(result)\n",
+    "    return dic"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'average_rate_per_night': ['27'], 'bedrooms_count': ['2'], 'city': ['humbl'], 'date_of_listing': ['may', '2016'], 'description': ['welcom', 'stay', 'privat', 'room', 'queen', 'bed', 'detach', 'privat', 'bathroom', 'second', 'floor', 'anoth', 'privat', 'bedroom', 'sofa', 'bed', 'avail', 'addit', 'guest', '10', 'addit', 'guest.\\\\n10min', 'iah', 'airport\\\\nairport', 'pick-up/drop', 'avail', '10/trip'], 'latitude': ['30.0201379199512'], 'longitude': ['-95.29399600425128'], 'title': ['2', 'privat', 'rooms/bathroom', '10min', 'iah', 'airport'], 'url': ['http', '//www.airbnb.com/rooms/18520444', 'location=cleveland', '2C', '20tx']}\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(all_col())"
+   ]
   },
   {
    "cell_type": "code",
