@@ -13,12 +13,12 @@ Welcome to the homework 3 repository of <b>Group 31</b>.
 > This file contains codes and comments about Homework 3.
 
 * `bonusMap.html`:
-> This file contains the bonus map which shows all the accomodations with a distance, from coordinates given by user, less than the input radius. clicking on an accomodation, it will appears the price and the link to the website.
+> This file contains the bonus map which shows all the accomodations with a distance, from coordinates given by user, less than the input radius. Clicking on an accomodation, it will appears the price and the link to the website.
 
 
 ## Homework text
 
-To see all the requests, you can go <a href = "https://github.com/CriMenghini/ADM-2018/tree/master/Homework_3"> here </a>.
+To see all the homework requests, you can go <a href = "https://github.com/CriMenghini/ADM-2018/tree/master/Homework_3"> here </a>.
 
 
 ## Authors
