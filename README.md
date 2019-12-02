@@ -18,7 +18,7 @@ Welcome to the homework 3 repository of <b>Group 31</b>.
 
 ## Homework text
 
-To see all the homework requests, you can go <a href = "https://github.com/CriMenghini/ADM-2018/tree/master/Homework_3"> here </a>.
+To see all the homework requests, you can go <a href = "https://github.com/CriMenghini/ADM/tree/master/2018/Homework_3"> here </a>.
 
 
 ## Authors
