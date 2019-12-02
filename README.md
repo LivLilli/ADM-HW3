@@ -1,4 +1,4 @@
-# Homework 3 - Find the perfect place to stay in Texas!
+# Find the perfect place to stay in Texas! - Search Engine
 
 Welcome to the homework 3 repository of <b>Group 31</b>.
 
